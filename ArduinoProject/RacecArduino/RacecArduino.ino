@@ -12,6 +12,7 @@
 #define CHARACTERISTIC0_UUID "deadbeef-36e1-4688-b7f5-ea07361b0000"
 #define CHARACTERISTIC1_UUID "deadbeef-36e1-4688-b7f5-ea07361b0001"
 
+// Pins for the button on the module
 #define BUTTON1PIN 35
 #define BUTTON2PIN 0
 
@@ -19,16 +20,6 @@ BLECharacteristic *pCharacteristic0 = nullptr;
 BLECharacteristic *pCharacteristic1 = nullptr;
 TFT_eSPI tft = TFT_eSPI(135, 240);
 
-// 21
-// 32
-// 33
-// 25
-// 26
-// 27
-// 39 NO
-// 36 NO
-// 37 NO
-// 38 NO
 // the number of the LED pin
 #define motorPinEna 21 // pwm
 #define motorPin1 32
@@ -44,6 +35,7 @@ const int resolution = 8;
 const int pwmChannelA = 0;
 const int pwmChannelB = 1;
 
+// pause boolean
 bool on = true;
 
 void IRAM_ATTR toggleButton1() {
@@ -88,7 +80,7 @@ void setup() {
   ledcAttachPin(motorPinEna, pwmChannelA);
   ledcAttachPin(motorPinEnb, pwmChannelB);
 
-  // name of the bluetooth device
+  // name of the bluetooth device seen in the Bluetooth device chooser
   BLEDevice::init("RacecArduino");
   BLEServer *pServer = BLEDevice::createServer();
   BLEService *pService = pServer->createService(SERVICE_UUID);
@@ -124,16 +116,16 @@ float smoothing = 0.8f;
 
 void loop() {
   delay(40);
+  // if paused
   if (!on) {
     tft.fillScreen(TFT_BLACK);
     tft.setTextColor(TFT_RED);
     tft.drawString("PAUSED", 10, 10);
 
     digitalWrite(motorPin1, LOW);
-	  digitalWrite(motorPin2, LOW);
+    digitalWrite(motorPin2, LOW);
     digitalWrite(motorPin3, LOW);
-	  digitalWrite(motorPin4, LOW);
-
+    digitalWrite(motorPin4, LOW);
     return;
   }
   
@@ -159,32 +151,27 @@ void loop() {
   float speedA = accelSmooth; // range -1.5 to 1.5
   float speedB = steeringSmooth;
 
-  // float speedA = accelSmooth - 0.5 * steeringSmooth; // range -1.5 to 1.5
-  // float speedB = accelSmooth + 0.5 * steeringSmooth;
-  // speedA *= 0.75f;
-  // speedB *= 0.75f;
-
-
+  // Debug info on the screen
   tft.drawString(String(speedA, 4), 120, 20);
   tft.drawString(String(speedB, 4), 120, 40);
 
   // set motor direction depending on direction of resulting speed and make speed positive
   if(speedA < 0) {
     digitalWrite(motorPin1, LOW);
-	  digitalWrite(motorPin2, HIGH);
+    digitalWrite(motorPin2, HIGH);
     speedA = -speedA;
   } else {
     digitalWrite(motorPin1, HIGH);
-	  digitalWrite(motorPin2, LOW);
+    digitalWrite(motorPin2, LOW);
   }
 
   if(speedB < 0) {
     digitalWrite(motorPin3, LOW);
-	  digitalWrite(motorPin4, HIGH);
+    digitalWrite(motorPin4, HIGH);
     speedB = -speedB;
   } else {
     digitalWrite(motorPin3, HIGH);
-	  digitalWrite(motorPin4, LOW);
+    digitalWrite(motorPin4, LOW);
   }
 
   // speed ranges in 0 to 1
