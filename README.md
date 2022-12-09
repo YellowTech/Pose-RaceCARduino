@@ -1,10 +1,22 @@
 # Pose-RaceCARduino
 
-Control a Bluetooth enabled ESP32 Robot using your arms!
+Control a Bluetooth enabled ESP32 Robot using your hands!
 
-This project uses a React webinterface and the Web Bluetooth API to control an ESP32 based microcontroller that is part of a simple twin-motor RC car. Specifically, this project used a LILYGO® TTGO T-Display ESP32 WiFi and Bluetooth Module that includes an ESP32, a TFT display and lots of IO ports although it can also run on a generic ESP32 when removing the TFT specific Code.
+<p align="center">
+  <img src="Images/webapp.jpg" width="40%" title="hover text">
+  +
+  <img src="Images/robot.jpg" width="25.3%" alt="accessibility text">
+  =
+</p>
 
-The controls are designed to work like followed: Your two hands corespond to one wheel speed each. The speed is 0 when the hands are at the height of your shoulders. The car moves forward when you lower your hands and backwards when you lift you hands above your shoulders. You can steer by creating a differential between the height of your two hands and thus making the wheels spin at different speeds. The controls are very slighly delayed and a bit finicky since the motors have a very nonlinear speedcurve and a high lowest speed. Better quality motors and some optimizations would greatly improve the handling.
+<p align="center">
+  <img src="Images/demovideo.gif" height="500" title="hover text">
+</p>
+
+
+This project uses a React web interface, TensorFlow JS, and the Web Bluetooth API to control an ESP32 based microcontroller that is part of a simple twin-motor RC car. Specifically, this project used a LILYGO® TTGO T-Display ESP32 WiFi and Bluetooth Module that includes an ESP32, a TFT display and lots of IO ports although it can also run on a generic ESP32 when removing the TFT specific Code.
+
+The controls are designed to work like follows: Your two hands correspond to one wheel speed each. The speed is 0 when the hands are at the height of your shoulders. The car moves forward when you lower your hands and backwards when you lift you hands above your shoulders. You can steer by creating a differential between the height of your two hands and thus making the wheels spin at different speeds. The controls are very slightly delayed and a bit finicky since the motors have a very nonlinear speed curve and a high lowest speed. Better quality motors and some optimizations would greatly improve the handling.
 
 ## Setup
 
